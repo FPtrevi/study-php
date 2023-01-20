@@ -1,5 +1,7 @@
 <?php
 $conn = mysqli_connect('localhost', 'deu20171194', '20171194', 'deu20171194');
+
+$conn = mysqli_connect('localhost', 'deu20171194', '20171194', 'deu20171194');
 $sql = "select * from topic";
 $result = mysqli_query($conn, $sql);
 $list = '';
@@ -13,16 +15,13 @@ $article = array(
 );
 
 if(isset($_GET['id'])){
-    $filtered_id = mysqli_real_escape_string($conn, $_GET['id']);
-    $sql = "select * from topic where id = {$filtered_id}";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_array($result);
-    $article['title'] = $row['title'];
-    $article['description'] = $row['description'];
+$filtered_id = mysqli_real_escape_string($conn, $_GET['id']);
+$sql = "select * from topic where id = {$filtered_id}";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_array($result);
+$article['title'] = $row['title'];
+$article['description'] = $row['description'];
 }
-
-
-
 
 ?>
 
@@ -38,7 +37,10 @@ if(isset($_GET['id'])){
         <?=$list?>
     </ol>
     <a href="create.php">create</a>
-    <h2><?=$article['title']?></h2>
-    <?=$article['description']?>
+    <form action="process_create.php" method = "POST">
+        <p><input type="text" name = "title" placeholder = "title"></p>
+        <p><textarea name="description" placeholder = "description"></textarea></p>
+        <p><input type="submit"></p>
+    </form>
 </body>
 </html>
