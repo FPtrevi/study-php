@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id']) ){
+    echo "로그인을 해야 이용할 수 있는 페이지 입니다. <br> <a href = 'login.php'>로그인</a>";
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +17,18 @@
 <body><!-- 폼 태그에 파일 업로드가 있다면  enctype='multipart/form-data' 필수-->
     <form name = 'frm' action = "write_process.php" method = 'post' onSubmit='return CheckFrom();' enctype='multipart/form-data'>
         <table border = '1'>
+            <tr>
+                <th>아이디</th>
+                <td>
+                    <input type="text" name="user_id" value='' />
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td>
+                    <input type="password" name="user_pw" value='' />
+                </td>
+            </tr>
             <tr>
                 <th>회원명</th>
                 <td>

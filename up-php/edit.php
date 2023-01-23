@@ -1,8 +1,16 @@
 <?php
-include_once("config/db_conn.php");
+session_start();
+
+if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id']) ){
+    echo "로그인을 해야 이용할 수 있는 페이지 입니다. <br> <a href = 'login.php'>로그인</a>";
+    exit;
+}
+require_once("config/db_conn.php");
 $sql = "select * from members where idx = {$_GET['edit_no']}";
 $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_array($result);
+$user_id = $row['user_id'];
+$user_pw = $row['user_pw'];
 $idx = $row['idx'];
 $name = $row['name'];
 $age = $row['age'];
@@ -19,6 +27,18 @@ mysqli_close($connect);
     <form name = 'frm' action = "edit_process.php" method = 'post' onSubmit='return CheckFrom();'>
         <input type="hidden" name="e_idx", value = <?=$idx?>>
         <table border = '1'>
+            <tr>
+                <th>아이디</th>
+                <td>
+                    <input type="text" name="users_id" value='<?=$user_id?>' />
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td>
+                    <input type="password" name="users_pw" value='<?=$user_pw?>' />
+                </td>
+            </tr>
             <tr>
                 <th>회원명</th>
                 <td>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 // PHP와 MySQL 연결
 include_once("config/db_conn.php");
 
@@ -13,6 +14,12 @@ include_once("config/db_conn.php");
 
 
 echo "<a href = 'write.php'>등록</a>";
+
+if(isset($_SESSION['user_id']) && $_SESSION['user_id']){
+    echo "<a href = 'logout.php'>로그아웃</a>";
+}else{
+    echo "<a href = 'login.php'>로그인</a>";
+}
 
 
 // 데이터베이스 데이터 가져오기
