@@ -1,13 +1,12 @@
 <?php
-session_start(); // 세션을 이용하기 위해서는 반드시 최상단에 선언 되어야 한다.
+require_once("lib.php");
 
 // if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id']) ){
 //     echo "로그인을 해야 이용할 수 있는 페이지 입니다. <br> <a href = 'login.php'>로그인</a>";
 //     exit;
 // }
 
-require_once("config/db_conn.php");
-$sql = "select * from members where user_id ={$_POST['user_id']}";
+$sql = "select * from members where user_id ='{$_POST['user_id']}'";
 $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_array($result);
 
@@ -16,7 +15,7 @@ if (!$row['user_id']){
     exit;
 }
 
-$sql = "select * from members where user_id ='{$_POST['user_id']}' and user_pw = '".md5($_POST['user_pw'])."'";
+$sql = "select * from members where user_id ='{$_POST['user_id']}' and user_pw = '{$_POST['user_pw']}'";
 $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_array($result);
 

@@ -1,17 +1,6 @@
 <?php
-session_start();
-// PHP와 MySQL 연결
-include_once("config/db_conn.php");
-
-
-// 데이터베이스 입력
-// $rand = rand(1,100);
-// $name = "고객 {$rand}번";
-// $age = rand(20,80);
-// $gender = "여";
-// $sql_query = "insert into members (name, age, gender, regdate) values ('{$name}','{$age}','{$gender}', now())";
-// $result = mysqli_query($connect, $sql_query);
-
+require_once("lib.php");
+$libs = paging("members", 1);
 
 echo "<a href = 'write.php'>등록</a>";
 
@@ -20,11 +9,10 @@ if(isset($_SESSION['user_id']) && $_SESSION['user_id']){
 }else{
     echo "<a href = 'login.php'>로그인</a>";
 }
-
+// 페이지번호
+$proc_page= isset($_GET['page'])? $_GET['page'] : 1;
 
 // 데이터베이스 데이터 가져오기
-$sql = "select * from members order by idx desc";
-$result = mysqli_query($connect, $sql);
 echo "<table border='1'>";
 echo "<tr>";
 echo "<th>NO</th>";
@@ -35,12 +23,12 @@ echo "<th>등록일</th>";
 echo "<th>삭제</th>";
 echo "</tr>";
 
-while($row = mysqli_fetch_array($result)){
+while($row = mysqli_fetch_array($libs["result"])){
     echo "<tr>";
-    echo "<td>{$row['idx']}</td>";
+    echo "<td>{$libs['cnt']}</td>";
     echo "
     <td>
-        <a href = './view.php?view_no={$row['idx']}'>
+        <a href = './view.php?view_no={$row['idx']}&page_no={$proc_page}'>
         {$row['name']}
         </a>
     </td>
@@ -52,14 +40,21 @@ while($row = mysqli_fetch_array($result)){
     <td>
         <form action = './delete_process.php' method = 'post'>
         <input type = 'hidden' name = 'del_no' value = '{$row["idx"]}'>
+        <input type = 'hidden' name = 'procPages' value = '{$proc_page}'>
         <input type='submit' value = '삭제'>
         </form>
     </td>
     ";
     echo "</tr>";
+    $libs['cnt']++;
 };
 echo "</table>";
 
+//페이징 프론트 작업
+pagination($libs);
 // 데이터베이스 닫기
+
+
+
 mysqli_close($connect);
 ?>

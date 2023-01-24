@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once("lib.php");
 
 if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id']) ){
     echo "로그인을 해야 이용할 수 있는 페이지 입니다. <br> <a href = 'login.php'>로그인</a>";
@@ -9,6 +9,7 @@ require_once("config/db_conn.php");
 $sql = "select * from members where idx = {$_GET['edit_no']}";
 $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_array($result);
+$pages = $_GET['page_no'];
 $user_id = $row['user_id'];
 $user_pw = $row['user_pw'];
 $idx = $row['idx'];
@@ -26,6 +27,7 @@ mysqli_close($connect);
 <body>
     <form name = 'frm' action = "edit_process.php" method = 'post' onSubmit='return CheckFrom();'>
         <input type="hidden" name="e_idx", value = <?=$idx?>>
+        <input type="hidden" name="pages_no", value = <?=$pages?>>
         <table border = '1'>
             <tr>
                 <th>아이디</th>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once("lib.php");
 
 if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id']) ){
     echo "로그인을 해야 이용할 수 있는 페이지 입니다. <br> <a href = 'login.php'>로그인</a>";

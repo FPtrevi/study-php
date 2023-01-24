@@ -1,15 +1,16 @@
 <?php
-session_start();
+require_once("lib.php");
 
 if(!isset($_SESSION['user_id']) && empty($_SESSION['user_id']) ){
     echo "로그인을 해야 이용할 수 있는 페이지 입니다. <br> <a href = 'login.php'>로그인</a>";
     exit;
 }
 
-require_once("config/db_conn.php");
 $sql = "select * from members where idx = {$_GET['view_no']}";
 $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_array($result);
+$pages = $_GET['page_no'];
+
 mysqli_close($connect);
 ?>
 <!DOCTYPE html>
@@ -53,10 +54,10 @@ mysqli_close($connect);
         </tr>
         <tr>
             <td>
-                <a href='./index.php'>목록</a>
+                <a href="./index.php?page=<?=$pages?>">목록</a>
             </td>
             <td>
-                <a href='./edit.php?edit_no=<?=$_GET['view_no']?>'>수정</a>
+                <a href='./edit.php?edit_no=<?=$_GET['view_no']?>&page_no=<?=$pages?>'>수정</a>
             </td>
         </tr>
     </table>
