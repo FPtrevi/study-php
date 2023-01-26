@@ -29,6 +29,7 @@ $user_name = $row['name'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="//code.jquery.com/jquery.min.js"></script>
     <title>view</title>
 </head>
 <body>
@@ -68,11 +69,29 @@ $user_name = $row['name'];
             }
         ?>
         <hr>
-        <form name = "frm" action = "process_reply.php" method = "post">
-            <input type="hidden" name="board_id" value ="<?=$view_no?>" />
-            <p><input type="text" name="reply" value = '' /></p>
-            <input type="submit" value="등록">
-        </form>
+        <!-- <form name = "frm" action = "process_reply.php" method = "post"> -->
+            <input type="hidden" id="board_id" value ="<?=$view_no?>" />
+            <p><input type="text" id="reply" value = '' /></p>
+            <!-- <input type="submit" value="등록"> -->
+            <button onclick = go()>등록</button>
+        <!-- </form> -->
+        
     </div>
+    <script>
+        function go(){
+            $.ajax({
+                url: "process_reply.php",
+                type: "post",
+                data: {
+                    board_id: $('#board_id').val(),
+                    text: $('#reply').val(),
+                },
+            }).done(function(data){
+                $('#result').text(data);
+                location.reload(); // 새로고침
+                // location.href="index.php"; // 페이지 이동
+            })
+        }
+    </script>
 </body>
 </html>

@@ -12,14 +12,5 @@ $user_id = $_POST['user_id'];
 $sql = "insert into board(title, text, date, user_id) values ('{$title}', '{$text}', now(), '{$user_id}')";
 $result = mysqli_query($connect, $sql);
 
-if($result){
-    echo "저장에 성공했습니다.";
-    echo "<a href='index.php'>돌아가기</a>";
-}else{
-    echo "에러 발생";
-    echo "<a href='index.php'>돌아가기</a>";
-    exit;
-}
-
 mysqli_close($connect);
 ?>

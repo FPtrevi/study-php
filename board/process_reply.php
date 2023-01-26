@@ -5,26 +5,10 @@ if(!isset($_SESSION['id']) && empty($_SESSION['id']) ){
     exit;
 }
 
-$sql = "select * from user where id = '{$user_id}'";
-$result = mysqli_query($connect, $sql);
-$row = mysqli_fetch_array($result);
-
-$usr_name = $row['name'];
-$text = $_POST['reply'];
-$user_id = $_SESSION['id'];
 $board_id = $_POST['board_id'];
-
-
-
+$text = $_POST['text'];
+$user_id = $_SESSION['id'];
 
 $sql = "insert into reply (text, user_id, board_id) values ('{$text}', '{$user_id}', {$board_id})";
 $result = mysqli_query($connect, $sql);
-if(!$result){
-    echo "오류발생";
-    exit;
-}
-
-echo "<a href='./view.php?view_no={$board_id}'>돌아가기</a>";
-
-
 ?>
